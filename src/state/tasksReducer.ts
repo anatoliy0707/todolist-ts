@@ -11,6 +11,8 @@ export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
+const initialTasksState: TasksStateType = {}
+
 type tasksReducerActionsType = ReturnType<typeof removeTaskAC>
     | ReturnType<typeof addTaskAC>
     | ReturnType<typeof changeTaskStatusAC>
@@ -19,7 +21,7 @@ type tasksReducerActionsType = ReturnType<typeof removeTaskAC>
     | ReturnType<typeof removeTodoListAC>
 
 
-export const tasksReducer = (state: TasksStateType, action: tasksReducerActionsType): TasksStateType => {
+export const tasksReducer = (state: TasksStateType = initialTasksState, action: tasksReducerActionsType): TasksStateType => {
     switch (action.type) {
         case "REMOVE-TASK":
             return {...state, [action.todoListId]: state[action.todoListId].filter(t => t.id !== action.taskId)}

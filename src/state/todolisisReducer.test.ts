@@ -8,13 +8,20 @@ import {
     TodoListType
 } from "./todolisisReducer";
 
-test('todolist filter should be changed', () => {
+let startState: Array<TodoListType>
 
-    const startState: Array<TodoListType> = [
+beforeEach(()=>{
+    startState = [
         {id: "todolistId1", title: "What to learn", filter: "all"},
         {id: "todolistId2", title: "What to buy", filter: "all"},
     ]
+})
 
+
+
+test('todolist filter should be changed', () => {
+
+    
     const newFilterValue: FilterValuesType = "completed"
 
     const action = changeFilterAC('todolistId1', newFilterValue)
@@ -26,13 +33,9 @@ test('todolist filter should be changed', () => {
     expect(endState.length).toBe(2)
 })
 
-test('todolist  should be changed removed', () => {
+test('todolist should be removed', () => {
 
-    const startState: Array<TodoListType> = [
-        {id: "todolistId1", title: "What to learn", filter: "all"},
-        {id: "todolistId2", title: "What to buy", filter: "all"},
-    ]
-
+  
     const action = removeTodoListAC('todolistId1')
 
     const endState = todolistsReducer(startState, action)
@@ -44,10 +47,7 @@ test('todolist  should be changed removed', () => {
 
 test('todolist title should be changed', () => {
 
-    const startState: Array<TodoListType> = [
-        {id: "todolistId1", title: "What to learn", filter: "all"},
-        {id: "todolistId2", title: "What to buy", filter: "all"},
-    ]
+  
     const newTitle = "YoYo"
 
     const action = changeTodolistTitleAC('todolistId1', newTitle)
@@ -61,10 +61,7 @@ test('todolist title should be changed', () => {
 
 test('todolist should be added', () => {
 
-    const startState: Array<TodoListType> = [
-        {id: "todolistId1", title: "What to learn", filter: "all"},
-        {id: "todolistId2", title: "What to buy", filter: "all"},
-    ]
+   
     const newTitle = "i'am new todolist"
 
     const action = addTodolistAC(newTitle)

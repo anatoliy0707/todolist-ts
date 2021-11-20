@@ -1,9 +1,14 @@
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./tasksReducer";
-import {addTodolistAC, removeTodoListAC} from "./todolisisReducer";
+import {addTodolistAC, removeTodoListAC, TodoListType} from "./todolisisReducer";
 import {throws} from "assert";
+import { TasksStateType } from "../App";
 
-test("task should be removed", () => {
-    const startState = {
+
+let startState: TasksStateType
+
+
+beforeEach(()=>{
+    startState = {
         ["todolistId1"]: [
             {id: "1111", title: "HTML&CSS", isDone: true},
             {id: "1112", title: "JS", isDone: true},
@@ -15,6 +20,10 @@ test("task should be removed", () => {
             {id: "1113", title: "Car", isDone: false},
         ],
     }
+})
+
+test("task should be removed", () => {
+  
 
     const action = removeTaskAC("todolistId1", "1112")
 
@@ -29,18 +38,6 @@ test("task should be removed", () => {
 
 
 test("the value by key must be removed", () => {
-    const startState = {
-        ["todolistId1"]: [
-            {id: "1111", title: "HTML&CSS", isDone: true},
-            {id: "1112", title: "JS", isDone: true},
-            {id: "1113", title: "ReactJS", isDone: false},
-        ],
-        ["todolistId2"]: [
-            {id: "1111", title: "Book", isDone: false},
-            {id: "1112", title: "Milk", isDone: true},
-            {id: "1113", title: "Car", isDone: false},
-        ],
-    }
 
     const action = removeTodoListAC("todolistId1")
 
@@ -52,18 +49,7 @@ test("the value by key must be removed", () => {
 
 
 test("task should be added", () => {
-    const startState = {
-        ["todolistId1"]: [
-            {id: "1111", title: "HTML&CSS", isDone: true},
-            {id: "1112", title: "JS", isDone: true},
-            {id: "1113", title: "ReactJS", isDone: false},
-        ],
-        ["todolistId2"]: [
-            {id: "1111", title: "Book", isDone: false},
-            {id: "1112", title: "Milk", isDone: true},
-            {id: "1113", title: "Car", isDone: false},
-        ],
-    }
+
     const newTaskTitle = "iPhone"
 
     const action = addTaskAC("todolistId1", newTaskTitle)
@@ -80,18 +66,7 @@ test("task should be added", () => {
 })
 
 test("task status should be changed", () => {
-    const startState = {
-        ["todolistId1"]: [
-            {id: "1111", title: "HTML&CSS", isDone: true},
-            {id: "1112", title: "JS", isDone: true},
-            {id: "1113", title: "ReactJS", isDone: false},
-        ],
-        ["todolistId2"]: [
-            {id: "1111", title: "Book", isDone: false},
-            {id: "1112", title: "Milk", isDone: true},
-            {id: "1113", title: "Car", isDone: false},
-        ],
-    }
+
     const newStatys = false
     const taskID = "1112"
 
@@ -107,18 +82,7 @@ test("task status should be changed", () => {
 })
 
 test("task title should be changed", () => {
-    const startState = {
-        ["todolistId1"]: [
-            {id: "1111", title: "HTML&CSS", isDone: true},
-            {id: "1112", title: "JS", isDone: true},
-            {id: "1113", title: "ReactJS", isDone: false},
-        ],
-        ["todolistId2"]: [
-            {id: "1111", title: "Book", isDone: false},
-            {id: "1112", title: "Milk", isDone: true},
-            {id: "1113", title: "Car", isDone: false},
-        ],
-    }
+
     const changedTitle = "Lada"
     const taskID = "1112"
 
@@ -133,18 +97,6 @@ test("task title should be changed", () => {
 })
 
 test("empty array must be added when creating a todolist", () => {
-    const startState = {
-        ["todolistId1"]: [
-            {id: "1111", title: "HTML&CSS", isDone: true},
-            {id: "1112", title: "JS", isDone: true},
-            {id: "1113", title: "ReactJS", isDone: false},
-        ],
-        ["todolistId2"]: [
-            {id: "1111", title: "Book", isDone: false},
-            {id: "1112", title: "Milk", isDone: true},
-            {id: "1113", title: "Car", isDone: false},
-        ],
-    }
 
     const newTodolistTitle = "not matter"
 
