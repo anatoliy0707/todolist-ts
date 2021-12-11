@@ -4,7 +4,7 @@ import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {Tasks} from "./Tasks";
+import {Task} from "./Task";
 
 
 export type TaskType = {
@@ -75,12 +75,12 @@ export const Todolist = React.memo((props: PropsType) => {
             {
                 tasksForTodolist.map(t => {
                     return (
-                        <Tasks removeTask={props.removeTask}
-                               changeTaskStatus={props.changeTaskStatus}
-                               changeTaskTitle={props.changeTaskTitle}
-                               todolistID={props.todolistID}
-                               task={t}
-                               key={t.id}
+                        <Task removeTask={props.removeTask}
+                              changeTaskStatus={props.changeTaskStatus}
+                              changeTaskTitle={props.changeTaskTitle}
+                              todolistID={props.todolistID}
+                              task={t}
+                              key={t.id}
                         />
                     )
                 })
