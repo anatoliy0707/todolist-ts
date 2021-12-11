@@ -8,8 +8,8 @@ export type AddItemFormPropsType = {
 
 }
 
-export function AddItemForm(props: AddItemFormPropsType) {
-
+export const  AddItemForm = React.memo( (props: AddItemFormPropsType) => {
+    console.log("AddItemForm")
     const [taskTitle, setTaskTitle] = useState("")
     const [error, setError] = useState<string | null>(null)
 
@@ -17,7 +17,9 @@ export function AddItemForm(props: AddItemFormPropsType) {
         setTaskTitle(e.currentTarget.value)
     }
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null)
+        if (error !== null) {
+            setError(null)
+        }
         if (e.charCode === 13) {
             addTaskHandler()
         }
@@ -38,12 +40,6 @@ export function AddItemForm(props: AddItemFormPropsType) {
 
     return (
         <div>
-            {/*<input value={taskTitle}*/}
-            {/*       onChange={onChangeHandler}*/}
-            {/*       onKeyPress={onKeyPressHandler}*/}
-            {/*       className={error ? "error" : ""}*/}
-            {/*       onBlur={onBlurDiactivatedErrorHandler}*/}
-            {/*/>*/}
             <TextField value={taskTitle}
                        onChange={onChangeHandler}
                        onKeyPress={onKeyPressHandler}
@@ -54,12 +50,9 @@ export function AddItemForm(props: AddItemFormPropsType) {
                        error={!!error}
                        helperText={error}
             />
-
-            {/*<button onClick={addTaskHandler}>+</button>*/}
             <IconButton onClick={addTaskHandler} >
                 <ControlPoint/>
             </IconButton>
-            {/*{error && <div className="error-massage">{error}</div>}*/}
         </div>
     )
-}
+} )

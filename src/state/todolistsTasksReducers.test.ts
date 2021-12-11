@@ -20,5 +20,4 @@ test("ids to be equal", ()=>{
     expect(todolistsEndState.length).toBe(1)
     expect(idForTasks && idForTodolists).toBe(action.newTodolistId)
     expect(idForTasks).toBe(idForTodolists)
-
 })
