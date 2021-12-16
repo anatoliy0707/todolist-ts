@@ -12,11 +12,11 @@ import { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksRe
 export type FilterValuesType = "all" | "active" | "completed";
 
 
-type TodoListType = {
-    id: string
-    title: string
-    filter: FilterValuesType
-}
+// type TodoListType = {
+//     id: string
+//     title: string
+//     filter: FilterValuesType
+// }
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>
