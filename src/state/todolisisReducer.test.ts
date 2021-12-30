@@ -6,7 +6,7 @@ import {
     removeTodoListAC,
     todolistsReducer,
     TodoListType
-} from "./todolisisReducer";
+} from "./todolistsReducer";
 
 let startState: Array<TodoListType>
 

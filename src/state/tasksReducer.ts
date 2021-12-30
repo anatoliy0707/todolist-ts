@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {addTodolistAC, removeTodoListAC} from "./todolisisReducer";
+import {addTodolistAC, removeTodoListAC} from "./todolistsReducer";
 
 export type TaskType = {
     id: string

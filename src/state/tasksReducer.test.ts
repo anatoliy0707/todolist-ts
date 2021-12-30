@@ -1,6 +1,5 @@
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./tasksReducer";
-import {addTodolistAC, removeTodoListAC, TodoListType} from "./todolisisReducer";
-import {throws} from "assert";
+import {addTodolistAC, removeTodoListAC} from "./todolistsReducer";
 import { TasksStateType } from "../App";
 
 
