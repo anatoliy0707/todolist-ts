@@ -3,17 +3,17 @@ import {
     changeFilterAC,
     changeTodolistTitleAC,
     FilterValuesType,
-    removeTodoListAC,
+    removeTodoListAC, TodolistDomainType,
     todolistsReducer,
-    TodoListType
+
 } from "./todolistsReducer";
 
-let startState: Array<TodoListType>
+let startState: Array<TodolistDomainType>
 
 beforeEach(()=>{
     startState = [
-        {id: "todolistId1", title: "What to learn", filter: "all"},
-        {id: "todolistId2", title: "What to buy", filter: "all"},
+        {id: "todolistId1", title: "What to learn", filter: "all", addedDate: '', order: 0},
+        {id: "todolistId2", title: "What to buy", filter: "all", addedDate: '', order: 0},
     ]
 })
 
@@ -41,7 +41,7 @@ test('todolist should be removed', () => {
     const endState = todolistsReducer(startState, action)
 
     expect(endState[0].id).toBe("todolistId2")
-    expect(Object.keys(endState[0]).length).toBe(3)
+    expect(Object.keys(endState[0]).length).toBe(5)
     expect(endState.length).toBe(1)
 })
 
@@ -56,7 +56,7 @@ test('todolist title should be changed', () => {
 
     expect(endState[0].title).toBe(newTitle)
     expect(endState[1].title).toBe("What to buy")
-    expect(Object.keys(endState[0]).length).toBe(3)
+    expect(Object.keys(endState[0]).length).toBe(5)
 })
 
 test('todolist should be added', () => {
@@ -70,6 +70,6 @@ test('todolist should be added', () => {
 
     expect(endState[0].title).toBe(newTitle)
     expect(endState.length).toBe(3)
-    expect(Object.keys(endState[0]).length).toBe(3)
+    expect(Object.keys(endState[0]).length).toBe(5)
 })
 

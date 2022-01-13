@@ -2,6 +2,7 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import {Task, TaskPropsType} from './Task';
+import { TaskPriorityes, TaskStatuses } from './api/todolist-api';
 
 
 
@@ -30,11 +31,13 @@ const Template: ComponentStory<typeof Task> = (args:TaskPropsType) => <Task {...
 export const TaskIsDoneStory = Template.bind({});
 TaskIsDoneStory.args = {
   todolistID: 'todolistID1',
-  task: { id: "taskID1", isDone: true, title: 'JS' },
+  task: { id: "taskID1", status: TaskStatuses.Completed, title: 'JS', order: 0, addedDate: '', deadline: null, description: '', 
+  priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId1' },
 };
 
 export const TaskIsNotDoneStory = Template.bind({});
 TaskIsNotDoneStory.args = {
   todolistID: 'todolistID1',
-  task: { id: "taskID2", isDone: false, title: 'HTML' },
+  task: { id: "taskID2", status: TaskStatuses.New, title: 'HTML', order: 0, addedDate: '', deadline: null, description: '', 
+  priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId1' },
 };

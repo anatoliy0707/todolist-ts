@@ -1,22 +1,14 @@
 import React, {useReducer} from "react"
 import {v1} from 'uuid';
 import './App.css';
-import {TaskType, Todolist} from './Todolist';
+import {Todolist} from './Todolist';
 import {AddItemForm} from "./AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
-import { addTodolistAC, changeFilterAC, changeTodolistTitleAC, removeTodoListAC, todolistsReducer } from "./state/todolistsReducer";
+import { addTodolistAC, changeFilterAC, changeTodolistTitleAC, FilterValuesType, removeTodoListAC, todolistsReducer } from "./state/todolistsReducer";
 import { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer } from "./state/tasksReducer";
+import { TaskPriorityes, TaskStatuses, TaskType } from "./api/todolist-api";
 
-
-export type FilterValuesType = "all" | "active" | "completed";
-
-
-// type TodoListType = {
-//     id: string
-//     title: string
-//     filter: FilterValuesType
-// }
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>
@@ -28,24 +20,44 @@ function AppWithReducers() {
     const todolistId2 = v1()
 
     const [todolists, dispatchToTodolists] = useReducer(todolistsReducer, [
-        {id: todolistId1, title: "What to learn", filter: "all"},
-        {id: todolistId2, title: "What to buy", filter: "all"},
+        {id: todolistId1, title: "What to learn", filter: "all", addedDate: '', order: 0},
+        {id: todolistId2, title: "What to buy", filter: "all", addedDate: '', order: 0},
     ])
 
     const [tasksObj, dispatchToTasks] = useReducer(tasksReducer, {
         [todolistId1]: [
-            {id: v1(), title: "HTML&CSS", isDone: true},
-            {id: v1(), title: "JS", isDone: true},
-            {id: v1(), title: "ReactJS", isDone: false},
-            {id: v1(), title: "Rest API", isDone: false},
-            {id: v1(), title: "GraphQL", isDone: false},
+            {id: v1(), title: "HTML&CSS", status: TaskStatuses.New, 
+            order: 0, addedDate: '', deadline: null, description: '', 
+            priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId1'},
+            {id: v1(), title: "JS", status: TaskStatuses.Completed, 
+            order: 0, addedDate: '', deadline: null, description: '', 
+            priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId1'},
+            {id: v1(), title: "ReactJS", status: TaskStatuses.New, 
+            order: 0, addedDate: '', deadline: null, description: '', 
+            priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId1'},
+            {id: v1(), title: "Rest API", status: TaskStatuses.New, 
+            order: 0, addedDate: '', deadline: null, description: '', 
+            priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId1'},
+            {id: v1(), title: "GraphQL", status: TaskStatuses.New, 
+            order: 0, addedDate: '', deadline: null, description: '', 
+            priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId1'},
         ],
         [todolistId2]: [
-            {id: v1(), title: "Book", isDone: false},
-            {id: v1(), title: "Milk", isDone: true},
-            {id: v1(), title: "Car", isDone: false},
-            {id: v1(), title: "MacBooK", isDone: false},
-            {id: v1(), title: "GraphQL2", isDone: false},
+            {id: v1(), title: "Book", status: TaskStatuses.New, 
+            order: 0, addedDate: '', deadline: null, description: '', 
+            priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId2'},
+            {id: v1(), title: "Milk", status: TaskStatuses.Completed, 
+            order: 0, addedDate: '', deadline: null, description: '', 
+            priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId2'},
+            {id: v1(), title: "Car", status: TaskStatuses.New, 
+            order: 0, addedDate: '', deadline: null, description: '', 
+            priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId2'},
+            {id: v1(), title: "MacBooK", status: TaskStatuses.New, 
+            order: 0, addedDate: '', deadline: null, description: '', 
+            priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId2'},
+            {id: v1(), title: "GraphQL2", status: TaskStatuses.New, 
+            order: 0, addedDate: '', deadline: null, description: '', 
+            priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId2'},
         ],
     })
 
@@ -111,10 +123,10 @@ function AppWithReducers() {
                             let tasksForTodolist = tasksObj[tl.id];
 
                             if (tl.filter === "active") {
-                                tasksForTodolist = tasksForTodolist.filter(t => t.isDone === false);
+                                tasksForTodolist = tasksForTodolist.filter(t => t.status === TaskStatuses.New);
                             }
                             if (tl.filter === "completed") {
-                                tasksForTodolist = tasksForTodolist.filter(t => t.isDone === true);
+                                tasksForTodolist = tasksForTodolist.filter(t => t.status === TaskStatuses.Completed);
                             }
 
                             return <Grid item>
