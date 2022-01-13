@@ -79,7 +79,7 @@ test("task should be added", () => {
 
 test("task status should be changed", () => {
 
-    const newStatus = TaskStatuses.New
+    const newStatus = false
     const taskID = "1112"
 
     const action = changeTaskStatusAC("todolistId1", taskID, newStatus)
@@ -87,7 +87,7 @@ test("task status should be changed", () => {
     const endState = tasksReducer(startState, action)
 
     expect(endState["todolistId1"].length).toBe(3)
-    expect(endState["todolistId1"][1].status).toBe(newStatus)
+    expect(endState["todolistId1"][1].status).toBe(TaskStatuses.New)
     expect(endState["todolistId2"][1].status).toBe(TaskStatuses.Completed)
     expect(endState["todolistId1"][1].title).toBe("JS")
     expect(endState["todolistId2"].length).toBe(3)
