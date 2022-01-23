@@ -133,7 +133,7 @@ test("empty array must be added when creating a todolist", () => {
 
     const newTodolistTitle = "not matter"
 
-    const action = addTodolistAC({id: "todolistId1", title: newTodolistTitle, addedDate: '', order: 0})
+    const action = addTodolistAC({id: "todolistId3", title: newTodolistTitle, addedDate: '', order: 0})
     const endState = tasksReducer(startState, action)
 
     const keys = Object.keys(endState)
