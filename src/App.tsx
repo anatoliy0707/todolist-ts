@@ -27,36 +27,36 @@ function App() {
     const [tasksObj, setTasksObj] = useState<TasksStateType>({
         [todolistId1]: [
             {id: v1(), title: "HTML&CSS", status: TaskStatuses.New, 
-            order: 0, addedDate: '', deadline: null, description: '', 
+            order: 0, addedDate: '', deadline: '', description: '',
             priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId1'},
             {id: v1(), title: "JS", status: TaskStatuses.Completed, 
-            order: 0, addedDate: '', deadline: null, description: '', 
+            order: 0, addedDate: '', deadline: '', description: '',
             priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId1'},
             {id: v1(), title: "ReactJS", status: TaskStatuses.New, 
-            order: 0, addedDate: '', deadline: null, description: '', 
+            order: 0, addedDate: '', deadline: '', description: '',
             priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId1'},
             {id: v1(), title: "Rest API", status: TaskStatuses.New, 
-            order: 0, addedDate: '', deadline: null, description: '', 
+            order: 0, addedDate: '', deadline: '', description: '',
             priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId1'},
             {id: v1(), title: "GraphQL", status: TaskStatuses.New, 
-            order: 0, addedDate: '', deadline: null, description: '', 
+            order: 0, addedDate: '', deadline: '', description: '',
             priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId1'},
         ],
         [todolistId2]: [
             {id: v1(), title: "Book", status: TaskStatuses.New, 
-            order: 0, addedDate: '', deadline: null, description: '', 
+            order: 0, addedDate: '', deadline: '', description: '',
             priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId2'},
             {id: v1(), title: "Milk", status: TaskStatuses.Completed, 
-            order: 0, addedDate: '', deadline: null, description: '', 
+            order: 0, addedDate: '', deadline: '', description: '',
             priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId2'},
             {id: v1(), title: "Car", status: TaskStatuses.New, 
-            order: 0, addedDate: '', deadline: null, description: '', 
+            order: 0, addedDate: '', deadline: '', description: '',
             priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId2'},
             {id: v1(), title: "MacBooK", status: TaskStatuses.New, 
-            order: 0, addedDate: '', deadline: null, description: '', 
+            order: 0, addedDate: '', deadline: '', description: '',
             priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId2'},
             {id: v1(), title: "GraphQL2", status: TaskStatuses.New, 
-            order: 0, addedDate: '', deadline: null, description: '', 
+            order: 0, addedDate: '', deadline: '', description: '',
             priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId2'},
         ],
     })
@@ -68,7 +68,7 @@ function App() {
 
     function addTask(todoListId: string, title: string) {
         setTasksObj({...tasksObj, [todoListId]: [{id: v1(), title, status: TaskStatuses.New, 
-            order: 0, addedDate: '', deadline: null, description: '', 
+            order: 0, addedDate: '', deadline: '', description: '',
             priority: TaskPriorityes.Low, startDate: '', todoListId: todoListId}, ...tasksObj[todoListId]]})
     }
 

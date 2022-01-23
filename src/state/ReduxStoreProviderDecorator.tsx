@@ -20,18 +20,18 @@ const rootReducer = combineReducers({
     tasks: {
         ["todolistId1"]: [
             {id: v1(), title: "HTML&CSS", status: TaskStatuses.Completed, 
-            order: 0, addedDate: '', deadline: null, description: '', 
+            order: 0, addedDate: '', deadline: '', description: '',
             priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId1'},
             {id: v1(), title: "JS", status: TaskStatuses.Completed, 
-            order: 0, addedDate: '', deadline: null, description: '', 
+            order: 0, addedDate: '', deadline: '', description: '',
             priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId1'}
         ],
         ["todolistId2"]: [
             {id: v1(), title: "Milk", status: TaskStatuses.Completed, 
-            order: 0, addedDate: '', deadline: null, description: '', 
+            order: 0, addedDate: '', deadline: '', description: '',
             priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId1'},
             {id: v1(), title: "React Book", status: TaskStatuses.Completed, 
-            order: 0, addedDate: '', deadline: null, description: '', 
+            order: 0, addedDate: '', deadline: '', description: '',
             priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId1'}
         ]
     }

@@ -1,4 +1,4 @@
-import React, { useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
@@ -7,8 +7,8 @@ import {Delete} from "@mui/icons-material";
 import {Task} from "./Task";
 import { TaskStatuses, TaskType } from './api/todolist-api';
 import { FilterValuesType } from './state/todolistsReducer';
-
-
+import {useDispatch} from "react-redux";
+import {setTasksTC} from "./state/tasksReducer";
 
 type PropsType = {
     todolistID: string
@@ -26,6 +26,11 @@ type PropsType = {
 
 export const Todolist = React.memo((props: PropsType) => {
     console.log("Todolist")
+    const dispatch = useDispatch()
+
+    useEffect(()=>{
+        dispatch(setTasksTC(props.todolistID))
+    },[])
 
     const onAllClickHandler = useCallback( () => {
         props.changeFilter(props.todolistID, "all")
@@ -84,7 +89,7 @@ export const Todolist = React.memo((props: PropsType) => {
             }
         </div>
         <div>
-            <Button variant={props.filter === "all" ? "contained" : "text"} onClick={onAllClickHandler}>
+            <Button variant={props.filter === "all" ? "outlined" : "text"} onClick={onAllClickHandler}>
                 All
             </Button>
             <Button variant={props.filter === "active" ? "contained" : "text"} color={"primary"}
