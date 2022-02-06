@@ -2,22 +2,10 @@ import {TaskPriorityes, TaskStatuses, TaskType, todolistAPI, UpdateTaskPropertie
 import {addTodolistAC, removeTodoListAC, setTodolistsAC} from "./todolistsReducer";
 import {Dispatch} from "redux";
 import {AppRootStateType} from "./store";
-
-
-export type TasksStateType = {
-    [key: string]: Array<TaskType>
-}
+import {setAppErrorAC, SetAppErrorActionsType, setAppStatusAC, SetAppStatusActionType} from "./appReducer";
+import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
 
 const initialTasksState: TasksStateType = {}
-
-type tasksReducerActionsType = ReturnType<typeof removeTaskAC>
-    | ReturnType<typeof addTaskAC>
-    | ReturnType<typeof updateTaskAC>
-    | ReturnType<typeof addTodolistAC>
-    | ReturnType<typeof removeTodoListAC>
-    | ReturnType<typeof setTodolistsAC>
-    | ReturnType<typeof setTasksAC>
-
 
 export const tasksReducer = (state: TasksStateType = initialTasksState, action: tasksReducerActionsType): TasksStateType => {
     switch (action.type) {
@@ -92,10 +80,12 @@ export const setTasksAC = (tasks: TaskType[], todolistID: string) => {
 }
 
 //thunk creators
-export const setTasksTC = (todolistID: string) => (dispatch: Dispatch) => {
+export const setTasksTC = (todolistID: string) => (dispatch: Dispatch<tasksReducerActionsType | SetAppStatusActionType>) => {
+    dispatch(setAppStatusAC('loading'))
     todolistAPI.getTasks(todolistID)
         .then(res => {
             dispatch(setTasksAC(res.data.items, todolistID))
+            dispatch(setAppStatusAC('succeeded'))
         })
 }
 
@@ -108,23 +98,23 @@ export const removeTaskTC = (taskID: string, todolistID: string) => (dispatch: D
         })
 }
 
-export const addTaskTC = (todolistID: string, title: string) => (dispatch: Dispatch) => {
+export const addTaskTC = (todolistID: string, title: string) => (dispatch: ThunkDispatchType) => {
+    dispatch(setAppStatusAC('loading'))
     todolistAPI.createTask(todolistID, title)
         .then(res => {
-            dispatch(addTaskAC(res.data.data.item))
+            if (res.data.resultCode === 0) {
+                dispatch(addTaskAC(res.data.data.item))
+                dispatch(setAppStatusAC('succeeded'))
+            } else {
+                handleServerAppError(res.data, dispatch)
+            }
+        })
+        .catch(error => {
+            handleServerNetworkError(error, dispatch)
         })
 }
 
-
-export type UpdateTaskModelType = {
-    title?: string
-    description?: string
-    status?: TaskStatuses
-    priority?: TaskPriorityes
-    startDate?: string
-    deadline?: string
-}
-export const updateTaskTC = (todoListId: string, taskId: string, model: UpdateTaskModelType) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
+export const updateTaskTC = (todoListId: string, taskId: string, model: UpdateTaskModelType) => (dispatch: ThunkDispatchType, getState: () => AppRootStateType) => {
     const state = getState()
     const currentTask = state.tasks[todoListId].find(t => t.id === taskId)
     if (!currentTask) {
@@ -144,7 +134,32 @@ export const updateTaskTC = (todoListId: string, taskId: string, model: UpdateTa
         .then(res => {
             if (res.data.resultCode === 0) {
                 dispatch(updateTaskAC(todoListId, taskId, model))
+            } else {
+                handleServerAppError(res.data, dispatch)
             }
+        })
+        .catch(error => {
+            handleServerNetworkError(error, dispatch)
         })
 }
 
+// types
+export type TasksStateType = {
+    [key: string]: Array<TaskType>
+}
+export type UpdateTaskModelType = {
+    title?: string
+    description?: string
+    status?: TaskStatuses
+    priority?: TaskPriorityes
+    startDate?: string
+    deadline?: string
+}
+type tasksReducerActionsType = ReturnType<typeof removeTaskAC>
+    | ReturnType<typeof addTaskAC>
+    | ReturnType<typeof updateTaskAC>
+    | ReturnType<typeof addTodolistAC>
+    | ReturnType<typeof removeTodoListAC>
+    | ReturnType<typeof setTodolistsAC>
+    | ReturnType<typeof setTasksAC>
+type ThunkDispatchType = Dispatch<tasksReducerActionsType | SetAppErrorActionsType | SetAppStatusActionType>

@@ -9,6 +9,7 @@ export default {
     component: AddItemForm,
     argTypes: {
         addItem: {description: 'Button inside form clicked'},
+
     },
 } as ComponentMeta<typeof AddItemForm>;
 
@@ -18,4 +19,13 @@ export const AddItemFormStory = Template.bind({});
 AddItemFormStory.args = {
     addItem: action('Button inside form clicked')
 };
+
+export const AddItemFormDisabledStory = Template.bind({});
+AddItemFormDisabledStory.args = {
+    addItem: action('Button inside form clicked'),
+    disabled: true
+};
+
+
+
 

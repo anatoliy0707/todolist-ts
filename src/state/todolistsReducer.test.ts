@@ -1,19 +1,20 @@
 import {
     addTodolistAC,
-    changeFilterAC,
+    changeFilterAC, changeTodolistEntityStatusAC,
     changeTodolistTitleAC,
     FilterValuesType,
     removeTodoListAC, setTodolistsAC, TodolistDomainType,
     todolistsReducer,
 
 } from "./todolistsReducer";
+import {RequestStatusType} from "./appReducer";
 
 let startState: Array<TodolistDomainType>
 
 beforeEach(() => {
     startState = [
-        {id: "todolistId1", title: "What to learn", filter: "all", addedDate: '', order: 0},
-        {id: "todolistId2", title: "What to buy", filter: "all", addedDate: '', order: 0},
+        {id: "todolistId1", title: "What to learn", filter: "all",entityStatus: "idle", addedDate: '', order: 0},
+        {id: "todolistId2", title: "What to buy", filter: "all",entityStatus: "idle", addedDate: '', order: 0},
     ]
 })
 
@@ -29,6 +30,20 @@ test('todolist filter should be changed', () => {
 
     expect(endState[0].filter).toBe(newFilterValue)
     expect(endState[1].filter).toBe("all")
+    expect(endState.length).toBe(2)
+})
+
+test('todolist entityStatus should be changed', () => {
+
+
+    const newStatusValue: RequestStatusType = "loading"
+
+    const action = changeTodolistEntityStatusAC('todolistId1', newStatusValue)
+
+    const endState = todolistsReducer(startState, action)
+
+    expect(endState[0].entityStatus).toBe(newStatusValue)
+    expect(endState[1].entityStatus).toBe("idle")
     expect(endState.length).toBe(2)
 })
 

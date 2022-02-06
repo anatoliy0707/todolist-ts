@@ -16,11 +16,18 @@ export type TodolistType = {
     title: string
 }
 
-type ResponseType<D = {}> = {
+export type ResponseType<D = {}> = {
     fieldsErrors: Array<string>
     messages: Array<string>
     resultCode: number
     data: D
+}
+
+type UpdateCreateTaskResponseType = {
+    data: { items: TaskType }
+    fieldsErrors: string[]
+    messages: string[]
+    resultCode: number
 }
 
 export enum TaskStatuses {
@@ -57,12 +64,7 @@ type GetTasksResponseType = {
     totalCount: number
 }
 
-type UpdateCreateTaskResponseType = {
-    data: { items: TaskType }
-    fieldsErrors: string[]
-    messages: string[]
-    resultCode: number
-}
+
 
 type DeleteTaskResponseType = {
     resultCode: number

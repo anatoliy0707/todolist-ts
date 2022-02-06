@@ -1,14 +1,14 @@
-import React, {KeyboardEvent, ChangeEvent, useState} from "react";
-import {Button, IconButton, TextField} from "@mui/material";
-import {ControlPoint} from "@mui/icons-material";
+import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import {IconButton, TextField} from "@mui/material";
+import AddBoxIcon from '@mui/icons-material/AddBox';
 
 
 export type AddItemFormPropsType = {
     addItem: (taskTitle: string) => void
-
+    disabled?: boolean
 }
 
-export const  AddItemForm = React.memo( (props: AddItemFormPropsType) => {
+export const AddItemForm = React.memo(({disabled = false, ...props}: AddItemFormPropsType) => {
     console.log("AddItemForm")
     const [taskTitle, setTaskTitle] = useState("")
     const [error, setError] = useState<string | null>(null)
@@ -49,10 +49,11 @@ export const  AddItemForm = React.memo( (props: AddItemFormPropsType) => {
                        label={'Type value'}
                        error={!!error}
                        helperText={error}
+                       disabled={disabled}
             />
-            <IconButton onClick={addTaskHandler} >
-                <ControlPoint/>
+            <IconButton onClick={addTaskHandler} color="primary" disabled={disabled}>
+                <AddBoxIcon/>
             </IconButton>
         </div>
     )
-} )
+})

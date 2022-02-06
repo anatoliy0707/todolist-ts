@@ -1,116 +1,86 @@
-import React, {useState} from "react"
-import {v1} from 'uuid';
+import React, {useCallback, useEffect} from "react"
 import './App.css';
-import {Todolist} from './Todolist';
-import {AddItemForm} from "./AddItemForm";
+import {Todolist} from './components/Todolist/Todolist';
+import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
-import { TaskPriorityes, TaskStatuses, TaskType } from "./api/todolist-api";
-import { FilterValuesType, TodolistDomainType } from "./state/todolistsReducer";
-
-
+import {
+    addTodolistTC,
+    changeFilterAC,
+    changeTodolistTitleTC,
+    FilterValuesType,
+    removeTodolistTC,
+    setTodolistsTC,
+    TodolistDomainType
+} from "./state/todolistsReducer";
+import {addTaskTC, removeTaskTC, updateTaskTC} from "./state/tasksReducer";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "./state/store";
+import {TaskStatuses, TaskType} from "./api/todolist-api";
+import {ErrorSnackbar} from "./components/ErrorSnackbar/ErrorSnackbar";
+import LinearProgress from "@mui/material/LinearProgress";
+import {RequestStatusType} from "./state/appReducer";
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
+type PropsType = {
+    demo?: boolean
+}
 
-function App() {
-
-    const todolistId1 = v1()
-    const todolistId2 = v1()
-
-    const [todolists, setTodoLists] = useState<Array<TodolistDomainType>>([
-        {id: todolistId1, title: "What to learn", filter: "all", addedDate: '', order: 0},
-        {id: todolistId2, title: "What to buy", filter: "all", addedDate: '', order: 0},
-    ])
-
-    const [tasksObj, setTasksObj] = useState<TasksStateType>({
-        [todolistId1]: [
-            {id: v1(), title: "HTML&CSS", status: TaskStatuses.New, 
-            order: 0, addedDate: '', deadline: '', description: '',
-            priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId1'},
-            {id: v1(), title: "JS", status: TaskStatuses.Completed, 
-            order: 0, addedDate: '', deadline: '', description: '',
-            priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId1'},
-            {id: v1(), title: "ReactJS", status: TaskStatuses.New, 
-            order: 0, addedDate: '', deadline: '', description: '',
-            priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId1'},
-            {id: v1(), title: "Rest API", status: TaskStatuses.New, 
-            order: 0, addedDate: '', deadline: '', description: '',
-            priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId1'},
-            {id: v1(), title: "GraphQL", status: TaskStatuses.New, 
-            order: 0, addedDate: '', deadline: '', description: '',
-            priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId1'},
-        ],
-        [todolistId2]: [
-            {id: v1(), title: "Book", status: TaskStatuses.New, 
-            order: 0, addedDate: '', deadline: '', description: '',
-            priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId2'},
-            {id: v1(), title: "Milk", status: TaskStatuses.Completed, 
-            order: 0, addedDate: '', deadline: '', description: '',
-            priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId2'},
-            {id: v1(), title: "Car", status: TaskStatuses.New, 
-            order: 0, addedDate: '', deadline: '', description: '',
-            priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId2'},
-            {id: v1(), title: "MacBooK", status: TaskStatuses.New, 
-            order: 0, addedDate: '', deadline: '', description: '',
-            priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId2'},
-            {id: v1(), title: "GraphQL2", status: TaskStatuses.New, 
-            order: 0, addedDate: '', deadline: '', description: '',
-            priority: TaskPriorityes.Low, startDate: '', todoListId: 'todolistId2'},
-        ],
-    })
+function App({demo = false}: PropsType) {
 
 
-    function removeTask(todoListId: string, taskId: string) {
-        setTasksObj({...tasksObj, [todoListId]: tasksObj[todoListId].filter(f => f.id !== taskId)})
-    }
-
-    function addTask(todoListId: string, title: string) {
-        setTasksObj({...tasksObj, [todoListId]: [{id: v1(), title, status: TaskStatuses.New, 
-            order: 0, addedDate: '', deadline: '', description: '',
-            priority: TaskPriorityes.Low, startDate: '', todoListId: todoListId}, ...tasksObj[todoListId]]})
-    }
-
-    function changeStatus(todoListId: string, taskId: string, isDone: boolean) {
-        setTasksObj({...tasksObj, [todoListId]: tasksObj[todoListId].map(m => m.id === taskId ? {...m, isDone} : m)})
-    }
-
-    const changeTaskTitle = (todoListId: string, taskId: string, newTitle: string) => {
-        setTasksObj({
-            ...tasksObj,
-            [todoListId]: tasksObj[todoListId].map(m => m.id === taskId ? {...m, title: newTitle} : m)
-        })
-    }
-
-    function changeFilter(todoListId: string, value: FilterValuesType) {
-        setTodoLists(todolists.map(m => m.id === todoListId ? {...m, status: value} : m))
-    }
-
-    const removeTodoList = (todoListId: string) => {
-        setTodoLists(todolists.filter(f => f.id !== todoListId))
-    }
-
-    const changeTodolistTitle = (todoListId: string, newTitle: string) => {
-        setTodoLists(todolists.map(m => m.id === todoListId ? {...m, title: newTitle} : m))
-    }
-
-    const addTodolist = (title: string) => {
-
-        const newTodolist: TodolistDomainType = {
-            id: v1(),
-            title,
-            filter: "all",
-            addedDate: '', 
-            order: 0
+    useEffect(() => {
+        if (demo) {
+            return
         }
+        dispatch(setTodolistsTC())
+    }, [])
 
-        setTodoLists([newTodolist, ...todolists])
-        setTasksObj({...tasksObj, [newTodolist.id]: []})
-    }
+    console.log("APP")
+
+    const todolists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todolists)
+    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
+    const dispatch = useDispatch()
+
+    const removeTask = useCallback((todoListId: string, taskId: string) => {
+        dispatch(removeTaskTC(taskId, todoListId))
+    }, [dispatch])
+
+    const addTask = useCallback((todoListId: string, title: string) => {
+        dispatch(addTaskTC(todoListId, title))
+    }, [dispatch])
+
+    const changeStatus = useCallback((todoListId: string, taskId: string, isDone: boolean) => {
+
+        dispatch(updateTaskTC(todoListId, taskId, {status: isDone ? TaskStatuses.Completed : TaskStatuses.New}))
+    }, [dispatch])
+
+    const changeTaskTitle = useCallback((todoListId: string, taskId: string, newTitle: string) => {
+        dispatch(updateTaskTC(todoListId, taskId, {title: newTitle}))
+    }, [dispatch])
+
+    const changeFilter = useCallback((todoListId: string, value: FilterValuesType) => {
+        dispatch(changeFilterAC(todoListId, value))
+    }, [dispatch])
+
+    const removeTodoList = useCallback((todoListId: string) => {
+        dispatch(removeTodolistTC(todoListId))
+    }, [dispatch])
+
+    const changeTodolistTitle = useCallback((todoListId: string, newTitle: string) => {
+        dispatch(changeTodolistTitleTC(todoListId, newTitle))
+    }, [dispatch])
+
+    const addTodolist = useCallback((title: string) => {
+        dispatch(addTodolistTC(title))
+    }, [dispatch])
 
     return (
         <div className="App">
+            <ErrorSnackbar/>
             <AppBar position="static">
                 <Toolbar variant="dense">
                     <IconButton edge="start" color="inherit" aria-label="menu" sx={{mr: 2}}>
@@ -121,6 +91,9 @@ function App() {
                     </Typography>
                     <Button color={"inherit"}>Login</Button>
                 </Toolbar>
+                <div className="progress">
+                    {status === "loading" && <LinearProgress/>}
+                </div>
             </AppBar>
             <Container fixed>
                 <Grid style={{padding: '20px'}} container>
@@ -132,22 +105,14 @@ function App() {
                     {
                         todolists.map((tl) => {
 
-                            let tasksForTodolist = tasksObj[tl.id];
-
-                            if (tl.filter === "active") {
-                                tasksForTodolist = tasksForTodolist.filter(t => t.status === TaskStatuses.New);
-                            }
-                            if (tl.filter === "completed") {
-                                tasksForTodolist = tasksForTodolist.filter(t => t.status === TaskStatuses.Completed);
-                            }
+                            let tasksForTodolist = tasks[tl.id];
 
                             return <Grid item>
                                 <Paper style={{padding: "10px"}} elevation={3}>
                                     <Todolist
                                         removeTodoList={removeTodoList}
-                                        todolistID={tl.id}
+                                        todolist={tl}
                                         key={tl.id}
-                                        title={tl.title}
                                         tasks={tasksForTodolist}
                                         changeTodolistTitle={changeTodolistTitle}
                                         changeTaskTitle={changeTaskTitle}
@@ -155,7 +120,9 @@ function App() {
                                         changeFilter={changeFilter}
                                         addTask={addTask}
                                         changeTaskStatus={changeStatus}
-                                        filter={tl.filter}/>
+                                        demo={demo}
+                                    />
+
                                 </Paper>
                             </Grid>
                         })
