@@ -8,11 +8,13 @@ import {tasksReducer} from "./tasksReducer";
 import {todolistsReducer} from "./todolistsReducer";
 import {appReducer} from "./appReducer";
 import thunk from "redux-thunk";
+import {authReducer} from "../features/Login/authReducer";
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
     todolists: todolistsReducer,
-    app: appReducer
+    app: appReducer,
+    auth: authReducer
 })
 
 const initialGlobalState = {
@@ -48,7 +50,11 @@ const initialGlobalState = {
     },
     app: {
         error: null,
-        status: 'idle'
+        status: 'idle',
+        isInitialized: false
+    },
+    auth: {
+        isLoggedIn: false
     }
 };
 

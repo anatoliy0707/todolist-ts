@@ -3,11 +3,13 @@ import { tasksReducer } from "./tasksReducer";
 import { todolistsReducer } from "./todolistsReducer";
 import thunk from 'redux-thunk'
 import {appReducer} from "./appReducer";
+import {authReducer} from "../features/Login/authReducer";
 
 const RootReducer = combineReducers({
     todolists: todolistsReducer,
     tasks: tasksReducer,
-    app: appReducer
+    app: appReducer,
+    auth: authReducer
 })
 
 
