@@ -4,14 +4,14 @@ import {AppBar, Button, CircularProgress, Container, IconButton, Toolbar, Typogr
 import {Menu} from "@mui/icons-material";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
-import {authAPI, TaskType, todolistAPI} from "./api/todolist-api";
+import {TaskType} from "./api/todolist-api";
 import {ErrorSnackbar} from "./components/ErrorSnackbar/ErrorSnackbar";
 import LinearProgress from "@mui/material/LinearProgress";
 import {initializedAppTC, RequestStatusType} from "./state/appReducer";
 import {TodolistsList} from "./features/TodolistsList/TodolistsList";
 import {Navigate, Route, Routes} from "react-router-dom";
 import {Login} from "./features/Login/Login";
-import { logoutTC } from "./features/Login/authReducer";
+import {logoutTC} from "./features/Login/authReducer";
 
 
 export type TasksStateType = {

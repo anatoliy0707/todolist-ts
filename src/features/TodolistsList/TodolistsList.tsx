@@ -16,7 +16,7 @@ import {TasksStateType} from "../../App";
 import {Grid, Paper} from "@mui/material";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {Todolist} from "../../components/Todolist/Todolist";
-import { Navigate } from "react-router-dom";
+import {Navigate} from "react-router-dom";
 
 type PropsType = {
     demo?: boolean
@@ -53,7 +53,7 @@ export const TodolistsList = React.memo(({demo = false}: PropsType) => {
     }, [dispatch])
 
     const changeFilter = useCallback((todoListId: string, value: FilterValuesType) => {
-        dispatch(changeFilterAC(todoListId, value))
+        dispatch(changeFilterAC({todoListId: todoListId, value: value}))
     }, [dispatch])
 
     const removeTodoList = useCallback((todoListId: string) => {
