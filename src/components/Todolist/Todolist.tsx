@@ -85,6 +85,7 @@ export const Todolist = React.memo(({demo = false, ...props}: PropsType) => {
                               todolistID={props.todolist.id}
                               task={t}
                               key={t.id}
+                              entityStatys={props.todolist.entityStatus}
                         />
                     )
                 })
